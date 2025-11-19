@@ -39,6 +39,15 @@ public class ProductService {
                 .toList();
     }
 
+    public boolean deleteProduct(Long id) {
+        return productRepository.findById(id)
+                .map(product -> {
+                    product.setActive(false);
+                    productRepository.save(product);
+                    return true;
+                }).orElse(false);
+    }
+
     private void mapToProduct(Product product, ProductRequest productRequest) {
         product.setName(productRequest.getName());
         product.setDescription(productRequest.getDescription());
