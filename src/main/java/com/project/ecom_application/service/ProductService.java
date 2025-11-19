@@ -7,6 +7,8 @@ import com.project.ecom_application.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ProductService {
@@ -18,6 +20,15 @@ public class ProductService {
         mapToProduct(product, productRequest);
         Product savedEntity = productRepository.save(product);
         return mapToProductResponse(savedEntity);
+    }
+
+    public Optional<ProductResponse> updateProduct(Long id, ProductRequest productRequest) {
+        return productRepository.findById(id)
+                .map(existingProduct -> {
+                    mapToProduct(existingProduct, productRequest);
+                    Product savedEntity = productRepository.save(existingProduct);
+                    return mapToProductResponse(savedEntity);
+                });
     }
 
     private void mapToProduct(Product product, ProductRequest productRequest) {
