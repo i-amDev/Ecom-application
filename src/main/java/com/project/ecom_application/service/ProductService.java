@@ -48,6 +48,13 @@ public class ProductService {
                 }).orElse(false);
     }
 
+    public List<ProductResponse> searchProduct(String keyword) {
+        return productRepository.searchProducts(keyword)
+                .stream()
+                .map(this::mapToProductResponse)
+                .toList();
+    }
+
     private void mapToProduct(Product product, ProductRequest productRequest) {
         product.setName(productRequest.getName());
         product.setDescription(productRequest.getDescription());
