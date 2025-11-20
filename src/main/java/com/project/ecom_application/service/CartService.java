@@ -58,4 +58,17 @@ public class CartService {
 
         return true;
     }
+
+    public boolean deleteItemFromCart(String userId, Long productId) {
+        Optional<User> userOptional = userRepository.findById(Long.valueOf(userId));
+
+        Optional<Product> productOptional = productRepository.findById(productId);
+
+        if (userOptional.isPresent() && productOptional.isPresent()) {
+            cartItemRepository.deleteByUserAndProduct(userOptional.get(), productOptional.get());
+            return true;
+        }
+
+        return false;
+    }
 }
